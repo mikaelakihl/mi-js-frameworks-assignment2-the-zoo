@@ -1,7 +1,7 @@
 export const AnimalPage = () => {
     return (
         <>
-            <h2>Djuren</h2>
+            <h2 className="text-xl">Djuren</h2>
         </>
     )
 }
