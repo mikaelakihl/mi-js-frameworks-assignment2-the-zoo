@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import type { Animal } from "../models/Animal"
+import { Link } from "react-router-dom";
 
 export const Animals = () => {
 
@@ -45,13 +46,15 @@ export const Animals = () => {
             <ul className="md:grid md:grid-cols-5 md:gap-y-2 md:gap-x-2">
                 {animals.map((a) => (
                     <li key={a.id}>
-                    <article className="flex flex-col items-center text-center relative h-64">
-                        <img
-                        src={a.imageUrl}
-                        className="w-45 h-45 object-cover rounded-full border-7 border-yellow-950 "
-                        />
-                        <h3 className="mt-2 font-semibold bg-yellow-0 text-white p-2 absolute bottom-19 w-45 z-10 uppercase">{a.name}</h3>
-                    </article>
+                        <Link to={`/animals/${a.id}`} state={{animal: a}} className="block">
+                            <article className="flex flex-col items-center text-center relative h-64">
+                                <img
+                                src={a.imageUrl}
+                                className="w-45 h-45 object-cover rounded-full border-7 border-yellow-950 "
+                                />
+                                <h3 className="mt-2 font-semibold bg-yellow-950 text-white p-2 absolute bottom-19 w-45 z-10 uppercase">{a.name}</h3>
+                            </article>
+                    </Link>
                     </li>
       ))}
             </ul>
