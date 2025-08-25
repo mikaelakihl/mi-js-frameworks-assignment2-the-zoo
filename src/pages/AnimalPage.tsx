@@ -1,7 +1,7 @@
 export const AnimalPage = () => {
     return (
         <>
-            <h2>AnimalPage</h2>
+            <h2>Djuren</h2>
         </>
     )
 }
