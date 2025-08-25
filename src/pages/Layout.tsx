@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom"
 export const Layout = () => {
     return (
         <>  <div className="flex flex-col h-screen">
-                <header className="bg-yellow-400 flex justify-between border-b border-black p-1">
+                <header className="min-h-20 overflow-hidden bg-yellow-400 flex justify-between border-b border-black p-2 items-center">
                     <h2>Zoo</h2>
                     <nav>
                         <ul className="flex flex-row gap-2">

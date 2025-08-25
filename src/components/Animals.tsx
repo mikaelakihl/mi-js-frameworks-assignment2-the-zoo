@@ -40,20 +40,21 @@ export const Animals = () => {
 
 
     return (
-        <>
-            {animals.map(a => (
-                <ul key={a.id}>
-                    <li>
-                        <article>
-                            <h2>{a.name}</h2>
-                            <div>
-                                <img className="object-contain" src={a.imageUrl}/>
-                            </div>
-                        </article>
-                    </li>
+        <section className="p-4">
 
-                </ul>
-            ))}
-        </>
+            <ul className="md:grid md:grid-cols-5 md:gap-y-2 md:gap-x-2">
+                {animals.map((a) => (
+                    <li key={a.id}>
+                    <article className="flex flex-col items-center text-center relative h-64">
+                        <img
+                        src={a.imageUrl}
+                        className="w-45 h-45 object-cover rounded-full border-7 border-yellow-950 "
+                        />
+                        <h3 className="mt-2 font-semibold bg-yellow-0 text-white p-2 absolute bottom-19 w-45 z-10 uppercase">{a.name}</h3>
+                    </article>
+                    </li>
+      ))}
+            </ul>
+        </section>
     )
 }
