@@ -54,7 +54,7 @@ export const AnimalDetailsPage = () => {
             {getStatus(animal.id) === "Snart hungrig" && (
         <p>Hungrig om {getTimeUntilHungry(animal.id)} sekunder</p>
       )} */}
-      <p>Status: {status}</p>
+      {/* <p>Status: {status}</p> */}
 
       {status === "Snart hungrig" && (
         <p>

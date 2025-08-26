@@ -107,11 +107,27 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
             animals.find(a => String(a.id) === String(id));
 
 
+        // const getElapsed = (id: string | number) => {
+        //     const fedAt = local.fedAtById[String(id)];
+        //     if (!fedAt) return Number.POSITIVE_INFINITY;
+        //     return now - fedAt;
+        // }
+
         const getElapsed = (id: string | number) => {
-            const fedAt = local.fedAtById[String(id)];
-            if (!fedAt) return Number.POSITIVE_INFINITY;
-            return now - fedAt;
-        }
+            const key = String(id);
+          
+            // Lokalt värde (om du matat i den här browsern)
+            const localFed = local.fedAtById[key];
+          
+            // API-värde (lastFed i ISO-format) – om lokalt saknas
+            const animal = animals.find(a => String(a.id) === key);
+            const apiFedMs = animal?.lastFed ? Date.parse(animal.lastFed) : NaN;
+          
+            const fedAt = localFed ?? (!Number.isNaN(apiFedMs) ? apiFedMs : undefined);
+          
+            if (fedAt == null) return 0;      // aldrig matad -> behandla som 0 ms
+            return now - fedAt;               // ms sedan senaste matning
+          };
 
         const canFeed   = (id: string | number) => getElapsed(id) >= HUNGRY_AT;
 

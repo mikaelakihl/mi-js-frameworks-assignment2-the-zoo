@@ -75,21 +75,22 @@ export const Animals = () => {
             <li key={a.id}>
               <Link to={`/animals/${a.id}`} state={{ animal: a }} className="block">
                 <AnimalHero animal={a} statusGlow={glow}>
-                <div>
+                {/* <div>
                 <span>Status:</span> {status}
-              </div>
-
-              
-              {late ? (
-                <div className="bg-yellow-100 text-xs">
-                  Hungrig (5h)
+              </div> */}
+                {late ? (
+                <div className="bg-yellow-100 border-1 text-xs text-red-500 p-2 mt-7 mb-2">
+                  ⚠ Det har gått (5h) sedan djuret fick mat
                 </div>
               ) : soon ? (
-                <div className="bg-yellow-100 text-xs">
-                  Behöver snart matas (3)
+                <div className="bg-yellow-100 border-1 text-xs text-red-500 p-2 mt-7 mb-2">
+                 ⚠ Behöver matas om (3h)
                 </div>
               ) : null}
+              
+             
                 </AnimalHero>
+               
               </Link>
 
               {/* Statusrad under kortet */}
