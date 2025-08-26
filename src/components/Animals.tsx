@@ -4,7 +4,7 @@ import { useAnimals } from "../context/AnimalsContext";
 
 export const Animals = () => {
 
-    const {animals, loading, error} = useAnimals();
+    const {animals, loading, error, needsFoodSoon, isOverdue, getStatus} = useAnimals();
 
     // const [animals, setAnimals] = useState<Animal[]>([]);
     // const [loading, setLoading] = useState(true);
@@ -43,19 +43,14 @@ export const Animals = () => {
 
 
     return (
-    //     <section className="p-4">
+
+    // <section className="p-4">
 
     //         <ul className="md:grid md:grid-cols-5 md:gap-y-2 md:gap-x-2">
     //             {animals.map((a) => (
     //                 <li key={a.id}>
-    //                     <Link to={`/animals/${a.id}`} state={{animal: a}} className="block">
-    //                         <article className="flex flex-col items-center text-center relative h-64">
-    //                             <img
-    //                             src={a.imageUrl}
-    //                             className="w-45 h-45 object-cover rounded-full border-7 border-yellow-950 "
-    //                             />
-    //                             <h3 className="mt-2 font-semibold bg-yellow-950 text-white p-2 absolute bottom-19 w-45 z-10 uppercase">{a.name}</h3>
-    //                         </article>
+    //                     <Link to={`/animals/${a.id}`} state={{ animal: a }} className="block">
+    //                         <AnimalHero animal={a}/>
     //                 </Link>
     //                 </li>
     //   ))}
@@ -63,16 +58,37 @@ export const Animals = () => {
     //     </section>
 
     <section className="p-4">
+      <ul className="md:grid md:grid-cols-5 md:gap-y-2 md:gap-x-2">
+        {animals.map((a) => {
+          const soon = needsFoodSoon?.(a.id) ?? false;  // 3h–4h
+          const late = isOverdue?.(a.id) ?? false;       // 5h+
+          const status = getStatus(a.id);
 
-            <ul className="md:grid md:grid-cols-5 md:gap-y-2 md:gap-x-2">
-                {animals.map((a) => (
-                    <li key={a.id}>
-                        <Link to={`/animals/${a.id}`} state={{ animal: a }} className="block">
-                            <AnimalHero animal={a}/>
-                    </Link>
-                    </li>
-      ))}
-            </ul>
-        </section>
+          return (
+            <li key={a.id}>
+              <Link to={`/animals/${a.id}`} state={{ animal: a }} className="block">
+                <AnimalHero animal={a} />
+              </Link>
+
+              {/* Statusrad under kortet */}
+              <div>
+                <span>Status:</span> {status}
+              </div>
+
+              {/* Notiser */}
+              {late ? (
+                <div className="bg-yellow-100 text-xs">
+                  Hungrig (5h)
+                </div>
+              ) : soon ? (
+                <div className="bg-yellow-100 text-xs">
+                  Behöver snart matas (3h)
+                </div>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
     )
 }

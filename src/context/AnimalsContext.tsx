@@ -7,13 +7,16 @@ export type AnimalsContextValue = {
     error: string | null; 
     getAnimal: (id: string | number) => Animal | undefined;
 
-    getHunger: (id: string | number) => number;
+    // getHunger: (id: string | number) => number;
     getStatus: (id: string | number) => string;
     canFeed: (id: string | number) => boolean;
     feed: (id: string | number) => void;
 
     getTimeUntilHungry: (id: string | number) => number;
     // resetFeedingState: () => void;
+
+    needsFoodSoon: (id: string | number) => boolean;
+    isOverdue: (id: string | number) => boolean;
 }
 
 const AnimalsContext = createContext<AnimalsContextValue | null>(null);
@@ -25,10 +28,19 @@ export const useAnimals = () => {
 }
 
 const LOCALSTORAGE_KEY = 'animals-feeding'; 
+
+// ------- AnimalDetailsPage -----------------
 // const HUNGER_WINDOW = 4 * 60 * 60 * 1000;
-const HUNGER_WINDOW = 4 * 10 * 1000; // test
-const SOON_HUNGRY = 3 * 10 * 1000;
-const SOON_THRESHOLD = HUNGER_WINDOW - SOON_HUNGRY;
+// const HUNGER_WINDOW = 4 * 10 * 1000; // test
+// const SOON_HUNGRY = 3 * 10 * 1000;
+// const SOON_THRESHOLD = HUNGER_WINDOW - SOON_HUNGRY;
+
+// --------- AnimalPage -----------------------
+
+const WARN_AT   = 3 * 10 * 1000; // 30 s 3h
+const HUNGRY_AT = 4 * 10 * 1000; // 40 s 4h
+const OVERDUE   = 5 * 10 * 1000; // 5 h 
+
 
 type localState = {
     fedAtById: Record<string, number>;
@@ -102,11 +114,11 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
         const getAnimal = (id: string | number) => 
             animals.find(a => String(a.id) === String(id));
 
-        const isHungry = (id: string | number) => {
-            const fedAt = local.fedAtById[String(id)];
-            if (!fedAt) return true;                 // aldrig matad => hungrig
-            return now - fedAt >= HUNGER_WINDOW;  // 4h passerat => hungrig
-          };
+        // const isHungry = (id: string | number) => {
+        //     const fedAt = local.fedAtById[String(id)];
+        //     if (!fedAt) return true;                 // aldrig matad => hungrig
+        //     return now - fedAt >= HUNGER_WINDOW;  // 4h passerat => hungrig
+        //   };
 
         // const getHunger = (id: string | number) => 
         //     local.hungerById[String(id)] ?? DEFAULT_HUNGER;
@@ -116,26 +128,46 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
         // const getStatus = (id: string | number) => 
         //     getHunger(id) === 0 ? 'Mätt' : 'Hungrig';
 
-        const getHunger = (id: string | number) => (isHungry(id) ? 1 : 0);
+        // const getHunger = (id: string | number) => (isHungry(id) ? 1 : 0);
 
         // const getStatus = (id: string | number) => (isHungry(id) ? "Hungrig" : "Mätt");
 
-        const getStatus = (id: string | number) => {
+        const getElapsed = (id: string | number) => {
             const fedAt = local.fedAtById[String(id)];
-            if (!fedAt) return "Hungrig"; 
-            
-            const elapsed = now - fedAt;
-          
-            if (elapsed >= HUNGER_WINDOW) {
-              return "Hungrig";
-            } else if (elapsed >= SOON_THRESHOLD) {  // test - ska vara 3 * 60 * 60 * 1000
-              return "Snart hungrig";
-            } else {
-              return "Mätt";
-            }
-          };
+            if (!fedAt) return Number.POSITIVE_INFINITY;
+            return now - fedAt;
+        }
 
-        const canFeed   = (id: string | number) => isHungry(id); // får mata när hungrig
+        const canFeed   = (id: string | number) => getElapsed(id) >= HUNGRY_AT;
+
+        const getStatus = (id: string | number) =>  {
+            const elapsed = getElapsed(id);
+            if (elapsed >= OVERDUE)   return "Hungrig"; 
+            if (elapsed >= HUNGRY_AT) return "Hungrig";
+            if (elapsed >= WARN_AT)   return "Snart hungrig";
+            return "Mätt";
+
+        }
+
+        // const getStatus = (id: string | number) => {
+        //     const fedAt = local.fedAtById[String(id)];
+        //     if (!fedAt) return "Hungrig"; 
+            
+        //     const elapsed = now - fedAt;
+          
+        //     if (elapsed >= OVERDUE) {
+        //         if (elapsed >= OVERDUE) {
+        //             return "Ej matad på 5h+";
+        //           } else if (elapsed >= HUNGRY_AT) {
+        //             return "Hungrig";
+        //           } else if (elapsed >= WARN_AT) {
+        //             return "Snart hungrig";
+        //           } else {
+        //             return "Mätt";
+        //           }
+        //   };
+
+         // får mata när hungrig
 
         // const feed = (id: string | number) => {
         //     const key = String(id);
@@ -161,12 +193,19 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
           const getTimeUntilHungry = (id: string | number) => {
             const fedAt = local.fedAtById[String(id)];
             if (!fedAt) return 0; // aldrig matad => hungrig direkt
-            const msLeft = HUNGER_WINDOW - (now - fedAt);
+            const msLeft = HUNGRY_AT - (now - fedAt);
             return Math.max(0, Math.floor(msLeft / 1000)); // returnera sekunder kvar
           };
+
+          const needsFoodSoon = (id: string | number) => {
+            const e = getElapsed(id);
+            return e >= WARN_AT && e < HUNGRY_AT;   // 3h–4h
+          };
+
+          const isOverdue = (id: string | number) => getElapsed(id) >= OVERDUE;
           
 
-          return { animals, loading, error, getAnimal, getHunger, getStatus, canFeed, feed, getTimeUntilHungry };
+          return { animals, loading, error, getAnimal, getStatus, canFeed, feed, getTimeUntilHungry, needsFoodSoon, isOverdue };
         }, [animals, loading, error, local, now]);
 
         
