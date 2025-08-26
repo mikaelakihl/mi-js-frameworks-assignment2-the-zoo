@@ -26,7 +26,9 @@ export const useAnimals = () => {
 
 const LOCALSTORAGE_KEY = 'animals-feeding'; 
 // const HUNGER_WINDOW = 4 * 60 * 60 * 1000;
-const HUNGER_WINDOW = 10 * 1000; // test
+const HUNGER_WINDOW = 4 * 10 * 1000; // test
+const SOON_HUNGRY = 3 * 10 * 1000;
+const SOON_THRESHOLD = HUNGER_WINDOW - SOON_HUNGRY;
 
 type localState = {
     fedAtById: Record<string, number>;
@@ -115,7 +117,24 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
         //     getHunger(id) === 0 ? 'Mätt' : 'Hungrig';
 
         const getHunger = (id: string | number) => (isHungry(id) ? 1 : 0);
-        const getStatus = (id: string | number) => (isHungry(id) ? "Hungrig" : "Mätt");
+
+        // const getStatus = (id: string | number) => (isHungry(id) ? "Hungrig" : "Mätt");
+
+        const getStatus = (id: string | number) => {
+            const fedAt = local.fedAtById[String(id)];
+            if (!fedAt) return "Hungrig"; 
+            
+            const elapsed = now - fedAt;
+          
+            if (elapsed >= HUNGER_WINDOW) {
+              return "Hungrig";
+            } else if (elapsed >= SOON_THRESHOLD) {  // test - ska vara 3 * 60 * 60 * 1000
+              return "Snart hungrig";
+            } else {
+              return "Mätt";
+            }
+          };
+
         const canFeed   = (id: string | number) => isHungry(id); // får mata när hungrig
 
         // const feed = (id: string | number) => {
