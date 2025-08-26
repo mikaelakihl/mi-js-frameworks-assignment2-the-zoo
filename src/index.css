@@ -5,7 +5,26 @@
   line-height: 1.5;
   font-weight: 400;
 
+}
+
+  .glow-green {             /* green-500 */
+    box-shadow: 0 0 20px 6px rgba(0, 255, 94, 0.776);
+    background-color:  rgb(60, 179, 0) ;
+    /* border-radius: 16px; */
+  }
+  
+  .glow-yellow {            /* yellow-500 */
+    box-shadow: 0 0 20px 6px rgba(255, 248, 123, 0.902);
+    background-color:  rgb(255, 245, 158) ;
+    /* border-radius: 16px; */
+  }
+  
+  .glow-red {           /* red-500 */
+    box-shadow: 0 0 20px 6px rgba(247, 19, 19, 0.786);
+    background-color:  rgba(127, 10, 10, 0.786) ;
+    /* border-radius: 16px; */
+  }
+
 @media (prefers-color-scheme: light) {
   
-}
 }

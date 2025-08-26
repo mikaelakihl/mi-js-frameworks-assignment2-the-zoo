@@ -6,8 +6,6 @@ export type AnimalsContextValue = {
     loading: boolean;
     error: string | null; 
     getAnimal: (id: string | number) => Animal | undefined;
-
-    // getHunger: (id: string | number) => number;
     getStatus: (id: string | number) => string;
     canFeed: (id: string | number) => boolean;
     feed: (id: string | number) => void;
@@ -29,11 +27,6 @@ export const useAnimals = () => {
 
 const LOCALSTORAGE_KEY = 'animals-feeding'; 
 
-// ------- AnimalDetailsPage -----------------
-// const HUNGER_WINDOW = 4 * 60 * 60 * 1000;
-// const HUNGER_WINDOW = 4 * 10 * 1000; // test
-// const SOON_HUNGRY = 3 * 10 * 1000;
-// const SOON_THRESHOLD = HUNGER_WINDOW - SOON_HUNGRY;
 
 // --------- AnimalPage -----------------------
 
@@ -46,7 +39,6 @@ type localState = {
     fedAtById: Record<string, number>;
 };
 
-// const DEFAULT_HUNGER = 1; 
 
 const loadLocal = (): localState => {
     try {
@@ -114,23 +106,6 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
         const getAnimal = (id: string | number) => 
             animals.find(a => String(a.id) === String(id));
 
-        // const isHungry = (id: string | number) => {
-        //     const fedAt = local.fedAtById[String(id)];
-        //     if (!fedAt) return true;                 // aldrig matad => hungrig
-        //     return now - fedAt >= HUNGER_WINDOW;  // 4h passerat => hungrig
-        //   };
-
-        // const getHunger = (id: string | number) => 
-        //     local.hungerById[String(id)] ?? DEFAULT_HUNGER;
-
-        // const canFeed = (id: string | number) => !local.fedById[String(id)];
-
-        // const getStatus = (id: string | number) => 
-        //     getHunger(id) === 0 ? 'Mätt' : 'Hungrig';
-
-        // const getHunger = (id: string | number) => (isHungry(id) ? 1 : 0);
-
-        // const getStatus = (id: string | number) => (isHungry(id) ? "Hungrig" : "Mätt");
 
         const getElapsed = (id: string | number) => {
             const fedAt = local.fedAtById[String(id)];
@@ -149,39 +124,12 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
 
         }
 
-        // const getStatus = (id: string | number) => {
-        //     const fedAt = local.fedAtById[String(id)];
-        //     if (!fedAt) return "Hungrig"; 
-            
-        //     const elapsed = now - fedAt;
-          
-        //     if (elapsed >= OVERDUE) {
-        //         if (elapsed >= OVERDUE) {
-        //             return "Ej matad på 5h+";
-        //           } else if (elapsed >= HUNGRY_AT) {
-        //             return "Hungrig";
-        //           } else if (elapsed >= WARN_AT) {
-        //             return "Snart hungrig";
-        //           } else {
-        //             return "Mätt";
-        //           }
-        //   };
-
-         // får mata när hungrig
-
-        // const feed = (id: string | number) => {
-        //     const key = String(id);
-
-        //     if (local.fedById[key]) return;
-        //     setLocal(prev => {
-        //         const current = prev.hungerById[key] ?? DEFAULT_HUNGER;
-        //         const next = Math.max(0, current - 1);
-        //         return {
-        //             hungerById: {...prev.hungerById, [key] : next},
-        //             fedById: {...prev.fedById, [key] : true}
-        //         };
-        //     });
-        // };
+        const getStatusClass = (id: string | number) => {
+            const s = getStatus(id);
+            if (s === "Mätt") return "glow-green";
+            if (s === "Snart hungrig") return "glow-yellow";
+            return "glow-red";
+          };
 
         const feed = (id: string | number) => {
             const key = String(id);
@@ -205,7 +153,7 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
           const isOverdue = (id: string | number) => getElapsed(id) >= OVERDUE;
           
 
-          return { animals, loading, error, getAnimal, getStatus, canFeed, feed, getTimeUntilHungry, needsFoodSoon, isOverdue };
+          return { animals, loading, error, getAnimal, getStatus, canFeed, feed, getTimeUntilHungry, needsFoodSoon, isOverdue, getStatusClass};
         }, [animals, loading, error, local, now]);
 
         

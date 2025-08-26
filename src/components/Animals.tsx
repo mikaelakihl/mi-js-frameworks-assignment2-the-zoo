@@ -4,7 +4,7 @@ import { useAnimals } from "../context/AnimalsContext";
 
 export const Animals = () => {
 
-    const {animals, loading, error, needsFoodSoon, isOverdue, getStatus} = useAnimals();
+    const {animals, loading, error, needsFoodSoon, isOverdue, getStatus, getStatusClass} = useAnimals();
 
     // const [animals, setAnimals] = useState<Animal[]>([]);
     // const [loading, setLoading] = useState(true);
@@ -60,19 +60,26 @@ export const Animals = () => {
     <section className="p-4">
       <ul className="md:grid md:grid-cols-5 md:gap-y-2 md:gap-x-2">
         {animals.map((a) => {
-          const soon = needsFoodSoon?.(a.id) ?? false;  // 3h–4h
-          const late = isOverdue?.(a.id) ?? false;       // 5h+
-          const status = getStatus(a.id);
+            const status = getStatus(a.id);
+            const glow = getStatusClass(a.id);
+
+            // const glow = status === 'Mätt' ? 'glow-green' :
+            // status === 'Snart hungrig' ? 'glow-yellow' : 'glow-red';
+
+          const soon = needsFoodSoon?.(a.id) // 3h–4h
+          const late = isOverdue?.(a.id)    // 5h+
+          
+          
 
           return (
             <li key={a.id}>
               <Link to={`/animals/${a.id}`} state={{ animal: a }} className="block">
-                <AnimalHero animal={a}>
+                <AnimalHero animal={a} statusGlow={glow}>
                 <div>
                 <span>Status:</span> {status}
               </div>
 
-              {/* Notiser */}
+              
               {late ? (
                 <div className="bg-yellow-100 text-xs">
                   Hungrig (5h)
