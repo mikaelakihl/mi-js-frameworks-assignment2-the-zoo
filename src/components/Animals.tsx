@@ -67,11 +67,8 @@ export const Animals = () => {
           return (
             <li key={a.id}>
               <Link to={`/animals/${a.id}`} state={{ animal: a }} className="block">
-                <AnimalHero animal={a} />
-              </Link>
-
-              {/* Statusrad under kortet */}
-              <div>
+                <AnimalHero animal={a}>
+                <div>
                 <span>Status:</span> {status}
               </div>
 
@@ -82,9 +79,14 @@ export const Animals = () => {
                 </div>
               ) : soon ? (
                 <div className="bg-yellow-100 text-xs">
-                  Behöver snart matas (3h)
+                  Behöver snart matas (3)
                 </div>
               ) : null}
+                </AnimalHero>
+              </Link>
+
+              {/* Statusrad under kortet */}
+             
             </li>
           );
         })}

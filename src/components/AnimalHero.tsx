@@ -1,11 +1,13 @@
+import type { ReactNode } from "react";
 import type { Animal } from "../models/Animal";
 
 type Props = {
   animal: Pick<Animal, "name" | "imageUrl">;
   className?: string;
+  children?: ReactNode;
 };
 
-export const AnimalHero = ({ animal, className = "" }: Props) => {
+export const AnimalHero = ({ animal, className = "", children }: Props) => {
   return (
     <article className={`flex flex-col items-center text-center relative h-64 ${className}`}>
       <img
@@ -17,6 +19,7 @@ export const AnimalHero = ({ animal, className = "" }: Props) => {
       <h3 className="mt-2 font-semibold bg-yellow-950 text-white p-2 flex justify-center items-center absolute bottom-[76px] w-[180px] z-10 uppercase">
         {animal.name}
       </h3>
+      <div>{children}</div>
     </article>
   );
 };
