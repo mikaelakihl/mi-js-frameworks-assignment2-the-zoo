@@ -11,6 +11,8 @@ export type AnimalsContextValue = {
     getStatus: (id: string | number) => string;
     canFeed: (id: string | number) => boolean;
     feed: (id: string | number) => void;
+
+    getTimeUntilHungry: (id: string | number) => number;
     // resetFeedingState: () => void;
 }
 
@@ -23,25 +25,25 @@ export const useAnimals = () => {
 }
 
 const LOCALSTORAGE_KEY = 'animals-feeding'; 
+// const HUNGER_WINDOW = 4 * 60 * 60 * 1000;
+const HUNGER_WINDOW = 10 * 1000; // test
 
 type localState = {
-    hungerById: Record<string,number>;
-    fedById: Record<string,boolean>;
+    fedAtById: Record<string, number>;
 };
 
-const DEFAULT_HUNGER = 1; 
+// const DEFAULT_HUNGER = 1; 
 
 const loadLocal = (): localState => {
     try {
         const raw = localStorage.getItem(LOCALSTORAGE_KEY);
-        if (!raw) return {hungerById: {}, fedById: {}};
+        if (!raw) return {fedAtById: {},};
         const parsed = JSON.parse(raw);
         return {
-            hungerById: parsed.hungerById ?? {},
-            fedById: parsed.fedById ?? {},
+            fedAtById: parsed.fedAtById ?? {},
         };
     } catch {
-        return {hungerById: {}, fedById: {},};
+        return {fedAtById: {}};
     }
 }
 const saveLocal = (state: localState) => {
@@ -86,38 +88,67 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
 
         useEffect (() => {saveLocal(local); }, [local]);
 
+        const [now, setNow] = useState(() => Date.now());
+        useEffect(() => {
+            // const t = setInterval(() => setNow(Date.now()), 60_000); // 1 min
+            const t = setInterval(() => setNow(Date.now()), 1000); // test
+            return () => clearInterval(t);
+        }, []);
+
         const value = useMemo<AnimalsContextValue>(() =>{
             
         const getAnimal = (id: string | number) => 
             animals.find(a => String(a.id) === String(id));
 
-        const getHunger = (id: string | number) => 
-            local.hungerById[String(id)] ?? DEFAULT_HUNGER;
+        const isHungry = (id: string | number) => {
+            const fedAt = local.fedAtById[String(id)];
+            if (!fedAt) return true;                 // aldrig matad => hungrig
+            return now - fedAt >= HUNGER_WINDOW;  // 4h passerat => hungrig
+          };
 
-        const canFeed = (id: string | number) => !local.fedById[String(id)];
+        // const getHunger = (id: string | number) => 
+        //     local.hungerById[String(id)] ?? DEFAULT_HUNGER;
 
-        const getStatus = (id: string | number) => 
-            getHunger(id) === 0 ? 'Mätt' : 'Hungrig';
+        // const canFeed = (id: string | number) => !local.fedById[String(id)];
+
+        // const getStatus = (id: string | number) => 
+        //     getHunger(id) === 0 ? 'Mätt' : 'Hungrig';
+
+        const getHunger = (id: string | number) => (isHungry(id) ? 1 : 0);
+        const getStatus = (id: string | number) => (isHungry(id) ? "Hungrig" : "Mätt");
+        const canFeed   = (id: string | number) => isHungry(id); // får mata när hungrig
+
+        // const feed = (id: string | number) => {
+        //     const key = String(id);
+
+        //     if (local.fedById[key]) return;
+        //     setLocal(prev => {
+        //         const current = prev.hungerById[key] ?? DEFAULT_HUNGER;
+        //         const next = Math.max(0, current - 1);
+        //         return {
+        //             hungerById: {...prev.hungerById, [key] : next},
+        //             fedById: {...prev.fedById, [key] : true}
+        //         };
+        //     });
+        // };
 
         const feed = (id: string | number) => {
             const key = String(id);
+            setLocal(prev => ({
+              fedAtById: { ...prev.fedAtById, [key]: Date.now() }
+            }));
+          };
 
-            if (local.fedById[key]) return;
-            setLocal(prev => {
-                const current = prev.hungerById[key] ?? DEFAULT_HUNGER;
-                const next = Math.max(0, current - 1);
-                return {
-                    hungerById: {...prev.hungerById, [key] : next},
-                    fedById: {...prev.fedById, [key] : true}
-                };
-            });
-        };
+          const getTimeUntilHungry = (id: string | number) => {
+            const fedAt = local.fedAtById[String(id)];
+            if (!fedAt) return 0; // aldrig matad => hungrig direkt
+            const msLeft = HUNGER_WINDOW - (now - fedAt);
+            return Math.max(0, Math.floor(msLeft / 1000)); // returnera sekunder kvar
+          };
+          
 
-        return {
-            animals, loading, error, getAnimal, getHunger, getStatus, canFeed,
-            feed };
-
-        }, [animals, loading, error, local]);
+          return { animals, loading, error, getAnimal, getHunger, getStatus, canFeed, feed, getTimeUntilHungry };
+        }, [animals, loading, error, local, now]);
 
         
 
