@@ -1,41 +1,42 @@
-import { useEffect, useState } from "react"
-import type { Animal } from "../models/Animal"
 import { Link } from "react-router-dom";
 import { AnimalHero } from "./AnimalHero";
+import { useAnimals } from "../context/AnimalsContext";
 
 export const Animals = () => {
 
-    const [animals, setAnimals] = useState<Animal[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string|null>(null);
+    const {animals, loading, error} = useAnimals();
 
-    useEffect(() => {
-        const controller = new AbortController();
+    // const [animals, setAnimals] = useState<Animal[]>([]);
+    // const [loading, setLoading] = useState(true);
+    // const [error, setError] = useState<string|null>(null);
 
-        const loadAnimals = async () => {
-            try {
-                setLoading(true);
-                setError(null);
+    // useEffect(() => {
+    //     const controller = new AbortController();
 
-                const res = await fetch(
-                    'https://animals.azurewebsites.net/api/animals',
-                    {signal: controller.signal}
-                );
+    //     const loadAnimals = async () => {
+    //         try {
+    //             setLoading(true);
+    //             setError(null);
 
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                    const data: Animal[] = await res.json();
-                    setAnimals(data);
-            } catch (error: unknown) {
-                if (error instanceof DOMException && error.name === 'AbortError') return;
-                const msg = error instanceof Error? error.message: 'Okänt fel';
-                setError(msg);
-            } finally {
-                setLoading(false);
-            }
-        };
+    //             const res = await fetch(
+    //                 'https://animals.azurewebsites.net/api/animals',
+    //                 {signal: controller.signal}
+    //             );
 
-        loadAnimals();
-        return () => controller.abort();}, []);
+    //             if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    //                 const data: Animal[] = await res.json();
+    //                 setAnimals(data);
+    //         } catch (error: unknown) {
+    //             if (error instanceof DOMException && error.name === 'AbortError') return;
+    //             const msg = error instanceof Error? error.message: 'Okänt fel';
+    //             setError(msg);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+
+    //     loadAnimals();
+    //     return () => controller.abort();}, []);
 
         if (loading) return <p>Laddar djur...</p>;
         if (error) return <p>Fel: {error}</p>;
