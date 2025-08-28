@@ -79,11 +79,11 @@ export const Animals = () => {
                 <span>Status:</span> {status}
               </div> */}
                 {late ? (
-                <div className="bg-yellow-100 border-1 text-xs text-red-500 p-2 mt-7 mb-2">
+                <div className="bg-yellow-100 border-1 text-xs text-red-500 p-2 ">
                   ⚠ Det har gått (5h) sedan djuret fick mat
                 </div>
               ) : soon ? (
-                <div className="bg-yellow-100 border-1 text-xs text-red-500 p-2 mt-7 mb-2">
+                <div className="bg-yellow-100 border-1 text-xs text-red-500 p-2">
                  ⚠ Behöver matas om (3h)
                 </div>
               ) : null}

@@ -44,7 +44,17 @@ export const AnimalDetailsPage = () => {
         <Link to="/animals" className="underline">← Tillbaka</Link>
       </div>
       <h2>Animaldetails</h2>
-      <AnimalHero animal={animal} statusGlow={statusClassName} className=" h-70 md:[&_img]:w-[280px] md:[&_img]:h-[280px] md:[&_h3]:w-[280px] md:[&_h3]:h-[50px] md:[&_h3]:bottom-[0px] " />
+      <AnimalHero animal={animal} statusGlow={statusClassName} className="h-70 md:[&_img]:w-[280px] md:[&_img]:h-[280px] md:[&_h3]:w-[280px] md:[&_h3]:h-[50px] md:[&_h3]:bottom-[0px] ">
+      {status === "Snart hungrig" && (
+        // <p>
+        //   ⚠ Behövs matas om ({timeLeft} sekunder)
+        // </p>
+
+        <div className="bg-yellow-100 border-1 text-xs text-red-500 p-2">
+        ⚠ Det har gått (3h) sedan djuret fick mat, dags att mata snart
+      </div>
+      )}
+      </AnimalHero>
       <button className="px-4 py-2 rounded-2xl shadow hover:shadow-md active:scale-95 transition" onClick={()=>feed(animal.id)} disabled={!allowed}>Mata</button>
       {/* <p>Status: {getStatus(animal.id)}</p>
           {getStatus(animal.id) === "Snart hungrig" && (
@@ -56,17 +66,13 @@ export const AnimalDetailsPage = () => {
       )} */}
       {/* <p>Status: {status}</p> */}
 
-      {status === "Snart hungrig" && (
-        <p>
-          ⚠ Behövs matas om ({timeLeft} sekunder)
-        </p>
-      )}
+      
 
-      {status === "Mätt" && (
+      {/* {status === "Mätt" && (
         <p>
           ⚠ Hungrig om ({timeLeft} sekunder)
         </p>
-      )}
+      )} */}
     </section>
   );
 };
