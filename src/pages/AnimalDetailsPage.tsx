@@ -48,8 +48,8 @@ export const AnimalDetailsPage = () => {
       <AnimalHero animal={animal} statusGlow={statusClassName} showLongDescription={true} className="h-70 md:[&_img]:w-[280px] md:[&_img]:h-[280px] md:[&_h3]:w-[280px] md:[&_h3]:h-[50px] md:[&_h3]:bottom-[0px] ">
       
       
-      
-      <button className="px-4 py-2 rounded-2xl shadow hover:shadow-md active:scale-95 transition mt-10" onClick={()=>feed(animal.id)} disabled={!allowed}>Mata</button>
+      <div className="flex flex-col items-center gap-4">
+      <button className="px-4 py-2 rounded-2xl shadow hover:shadow-md active:scale-95 transition mt-10 uppercase text-white bg-yellow-950" onClick={()=>feed(animal.id)} disabled={!allowed}>Mata {animal.name}</button>
       {/* <p>Status: {getStatus(animal.id)}</p>
           {getStatus(animal.id) === "Snart hungrig" && (
             <span className="text-yellow-600">⚠ Djuret behöver snart matas</span>
@@ -59,6 +59,19 @@ export const AnimalDetailsPage = () => {
         <p>Hungrig om {getTimeUntilHungry(animal.id)} sekunder</p>
       )} */}
       {/* <p>Status: {status}</p> */}
+
+      
+        {status === "Snart hungrig" && (
+            // <p>
+            //   ⚠ Behövs matas om ({timeLeft} sekunder)
+            // </p>
+            
+
+            <div className="bg-yellow-100 border-1 text-sm text-red-500 p-2">
+            ⚠ Det har gått (3h) sedan <span className="semi-bold">{animal.name}</span> fick mat, dags att mata snart
+          </div>
+          )}
+    </div>
 
       </AnimalHero>
 
@@ -71,18 +84,6 @@ export const AnimalDetailsPage = () => {
       
      
     </section>
-    <div className="fixed bottom-0 w-full h-[200px]">
-    {status === "Snart hungrig" && (
-        // <p>
-        //   ⚠ Behövs matas om ({timeLeft} sekunder)
-        // </p>
-        
-
-        <div className="bg-yellow-100 border-1 text-sm text-red-500 p-2">
-        ⚠ Det har gått (3h) sedan <span className="semi-bold">{animal.name}</span> fick mat, dags att mata snart
-      </div>
-      )}
-    </div>
     </>
 
   );

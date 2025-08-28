@@ -16,7 +16,7 @@ export const AnimalHero = ({ animal, className = "", statusGlow = "", children, 
   const text = isLong ? animal.longDescription : animal.shortDescription;
 
   return (
-    <article className='flex flex-col items-center text-center relative h-[400px]'>
+    <article className='flex flex-col items-center text-center relative min-h-[400px]'>
       <div className="relative mt-2">
       <img
         src={animal.imageUrl}
