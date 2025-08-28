@@ -44,7 +44,7 @@ export const AnimalDetailsPage = () => {
         <div className="text-center flex">
         <Link to="/animals" className="underline">← Tillbaka</Link>
       </div>
-      <h2>Animaldetails</h2>
+      {/* <h2 className="">Mata djur</h2> */}
       <AnimalHero animal={animal} statusGlow={statusClassName} showLongDescription={true} className="h-70 md:[&_img]:w-[280px] md:[&_img]:h-[280px] md:[&_h3]:w-[280px] md:[&_h3]:h-[50px] md:[&_h3]:bottom-[0px] ">
       
       

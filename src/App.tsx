@@ -6,7 +6,7 @@ import { AnimalProvider } from "./context/AnimalsContext";
 export const App = () => {
   return (
   <AnimalProvider>
-    <RouterProvider router={router} />;
+    <RouterProvider router={router} />
   </AnimalProvider>
   )
 };
