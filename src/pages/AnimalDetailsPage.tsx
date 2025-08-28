@@ -39,23 +39,17 @@ export const AnimalDetailsPage = () => {
 
   
   return (
+    <>
     <section className="p-4 space-y-6">
         <div className="text-center flex">
         <Link to="/animals" className="underline">← Tillbaka</Link>
       </div>
       <h2>Animaldetails</h2>
-      <AnimalHero animal={animal} statusGlow={statusClassName} className="h-70 md:[&_img]:w-[280px] md:[&_img]:h-[280px] md:[&_h3]:w-[280px] md:[&_h3]:h-[50px] md:[&_h3]:bottom-[0px] ">
-      {status === "Snart hungrig" && (
-        // <p>
-        //   ⚠ Behövs matas om ({timeLeft} sekunder)
-        // </p>
-
-        <div className="bg-yellow-100 border-1 text-xs text-red-500 p-2">
-        ⚠ Det har gått (3h) sedan djuret fick mat, dags att mata snart
-      </div>
-      )}
-      </AnimalHero>
-      <button className="px-4 py-2 rounded-2xl shadow hover:shadow-md active:scale-95 transition" onClick={()=>feed(animal.id)} disabled={!allowed}>Mata</button>
+      <AnimalHero animal={animal} statusGlow={statusClassName} showLongDescription={true} className="h-70 md:[&_img]:w-[280px] md:[&_img]:h-[280px] md:[&_h3]:w-[280px] md:[&_h3]:h-[50px] md:[&_h3]:bottom-[0px] ">
+      
+      
+      
+      <button className="px-4 py-2 rounded-2xl shadow hover:shadow-md active:scale-95 transition mt-10" onClick={()=>feed(animal.id)} disabled={!allowed}>Mata</button>
       {/* <p>Status: {getStatus(animal.id)}</p>
           {getStatus(animal.id) === "Snart hungrig" && (
             <span className="text-yellow-600">⚠ Djuret behöver snart matas</span>
@@ -66,13 +60,30 @@ export const AnimalDetailsPage = () => {
       )} */}
       {/* <p>Status: {status}</p> */}
 
-      
+      </AnimalHero>
 
       {/* {status === "Mätt" && (
         <p>
           ⚠ Hungrig om ({timeLeft} sekunder)
         </p>
       )} */}
+
+      
+     
     </section>
+    <div className="fixed bottom-0 w-full h-[200px]">
+    {status === "Snart hungrig" && (
+        // <p>
+        //   ⚠ Behövs matas om ({timeLeft} sekunder)
+        // </p>
+        
+
+        <div className="bg-yellow-100 border-1 text-sm text-red-500 p-2">
+        ⚠ Det har gått (3h) sedan <span className="semi-bold">{animal.name}</span> fick mat, dags att mata snart
+      </div>
+      )}
+    </div>
+    </>
+
   );
 };
