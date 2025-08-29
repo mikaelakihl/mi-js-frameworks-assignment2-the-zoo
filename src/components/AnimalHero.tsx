@@ -11,7 +11,7 @@ type Props = {
 
 
 
-export const AnimalHero = ({ animal, className = "", statusGlow = "", children, showLongDescription = false }: Props) => {
+export const AnimalHero = ({ animal, statusGlow = "", children, showLongDescription = false }: Props) => {
   const isLong = showLongDescription;
   const text = isLong ? animal.longDescription : animal.shortDescription;
 
@@ -40,10 +40,6 @@ export const AnimalHero = ({ animal, className = "", statusGlow = "", children, 
           {text}
         </p>
       </div>
-
-      {/* <div className="mt-3 w-full h-[60px] flex items-center justify-center px-2">
-      <p className="text-xs leading-snug overflow-hidden text-ellipsis">{text} </p>
-      </div> */}
 
       <div className="mt-auto w-full flex flex-col items-center gap-6 pb-3">
       <div className={`h-5 w-5  rounded-full mt-5 ${statusGlow}`}></div>
