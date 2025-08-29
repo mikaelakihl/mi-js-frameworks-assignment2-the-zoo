@@ -20,7 +20,7 @@ export const AnimalHero = ({ animal, className = "", statusGlow = "", children, 
       <div className="relative mt-2">
       <img
         src={animal.imageUrl}
-        alt={animal.name}
+        alt='Bild på djur'
         className='w-[180px] h-[180px] object-cover rounded-full border-[7px] border-yellow-950'
         onError={(e) => { e.currentTarget.src = `https://placehold.co/180x180?text=${encodeURIComponent(animal.name)}`; }}
       />
