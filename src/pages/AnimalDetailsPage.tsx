@@ -30,7 +30,7 @@ export const AnimalDetailsPage = () => {
       <AnimalHero animal={animal} statusGlow={statusClassName} showLongDescription={true} className="h-70 md:[&_img]:w-[280px] md:[&_img]:h-[280px] md:[&_h3]:w-[280px] md:[&_h3]:h-[50px] md:[&_h3]:bottom-[0px] ">
       
       <div className="flex flex-col items-center gap-4">
-      <button className="px-4 py-2 rounded-2xl shadow hover:shadow-md active:scale-95 transition mt-10 uppercase text-white bg-yellow-950" onClick={()=>feed(animal.id)} disabled={!allowed}>Mata {animal.name}</button>
+      <button className="px-4 py-2 rounded-2xl shadow hover:shadow-md active:scale-95 transition mt-10 uppercase text-white bg-yellow-950 disabled:bg-gray-400 transition-none" onClick={()=>feed(animal.id)} disabled={!allowed}>Mata {animal.name}</button>
 
         {status === "Snart hungrig" && (
             <div className="bg-yellow-100 border-1 text-sm text-red-500 p-2">
