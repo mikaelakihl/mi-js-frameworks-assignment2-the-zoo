@@ -4,7 +4,7 @@ import { useAnimals } from "../context/AnimalsContext";
 
 export const Animals = () => {
 
-    const {animals, loading, error, needsFoodSoon, isOverdue, getStatus, getStatusClass} = useAnimals();
+    const {animals, loading, error, needsFoodSoon, isOverdue, getStatusClass} = useAnimals();
 
 
         if (loading) return <p>Laddar djur...</p>;
