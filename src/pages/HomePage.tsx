@@ -13,9 +13,9 @@ export const HomePage = () => {
 
     return (
         <>
-            <h1 className="text-3xl mb-10">Zafarie</h1>
+            <h1 className="text-9xl text-shadow-sm text-yellow-100 uppercase md:text-[180px]">Zafarie</h1>
             <div className="">
-                <h2 className="text-2xl p-4 uppercase font-semibold bg-yellow-950 text-white flex justify-center">Hungriga just nu</h2>
+                <h2 className="text-2xl text-center p-4 uppercase font-semibold bg-yellow-950 text-white flex justify-center">Hungriga just nu</h2>
                 {hungryAnimals.length === 0 ? (
                     <p>Inga djur är hungriga just nu</p>
                 ) : (
@@ -37,3 +37,4 @@ export const HomePage = () => {
         </>
     )
 }
+
