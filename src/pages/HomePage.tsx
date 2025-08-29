@@ -1,5 +1,3 @@
-import { Link } from "react-router";
-import { AnimalHero } from "../components/AnimalHero";
 import { useAnimals } from "../context/AnimalsContext"
 
 export const HomePage = () => {
