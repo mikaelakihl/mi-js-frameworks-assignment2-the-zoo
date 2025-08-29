@@ -23,10 +23,11 @@ export const useAnimals = () => {
 }
 
 const LOCALSTORAGE_KEY = 'animals-feeding'; 
+const HOUR = 60 * 60 * 1000;
 
-const WARN_AT   = 3 * 10 * 1000; // 30 s 3h
-const HUNGRY_AT = 4 * 10 * 1000; // 40 s 4h
-const OVERDUE   = 5 * 10 * 1000; // 5 h 
+const WARN_AT   = 3 * HOUR; // 30 s 3h
+const HUNGRY_AT = 4 * HOUR // 40 s 4h
+const OVERDUE   = 5 * HOUR // 5 h 
 
 type localState = {
     fedAtById: Record<string, number>;
@@ -88,8 +89,8 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
 
         const [now, setNow] = useState(() => Date.now());
         useEffect(() => {
-            // const t = setInterval(() => setNow(Date.now()), 60_000); // 1 min
-            const t = setInterval(() => setNow(Date.now()), 1000); // test
+            const t = setInterval(() => setNow(Date.now()), 60_000); // 1 min
+            // const t = setInterval(() => setNow(Date.now()), 1000); // test
             return () => clearInterval(t);
         }, []);
 

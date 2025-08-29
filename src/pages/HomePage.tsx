@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { useAnimals } from "../context/AnimalsContext"
 
 export const HomePage = () => {
@@ -19,14 +20,16 @@ export const HomePage = () => {
                 ) : (
                     <ul className=" mt-10 flex flex-col justify-center items-center md:flex-row md:flex-wrap md:m-30">
                         {hungryAnimals.map(a =>(
-                            <li key={a.id}>
-                                <img
-                                    src={a.imageUrl}
-                                    alt='animal.name'
-                                    className='w-[130px] h-[130px] object-cover rounded-full border-[7px] border-yellow-950 shadow-sm'
-                                    onError={(e) => { e.currentTarget.src = `https://placehold.co/180x180?text=${encodeURIComponent(a.name)}`; }}
-                                />
-                            </li>
+                                <li key={a.id}>
+                                     <Link to={`/animals/${a.id}`} state={{ animal: a }}>
+                                        <img
+                                            src={a.imageUrl}
+                                            alt='animal.name'
+                                            className='w-[130px] h-[130px] object-cover rounded-full border-[7px] border-yellow-950 shadow-sm'
+                                            onError={(e) => { e.currentTarget.src = `https://placehold.co/180x180?text=${encodeURIComponent(a.name)}`; }}
+                                        />
+                                    </Link>
+                                </li>
                         ))}
                     </ul>
                 )}
