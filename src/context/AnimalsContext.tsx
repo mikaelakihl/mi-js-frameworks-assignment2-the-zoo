@@ -11,7 +11,6 @@ export type AnimalsContextValue = {
     feed: (id: string | number) => void;
 
     getTimeUntilHungry: (id: string | number) => number;
-    // resetFeedingState: () => void;
 
     needsFoodSoon: (id: string | number) => boolean;
     isOverdue: (id: string | number) => boolean;
@@ -106,12 +105,6 @@ export const AnimalProvider = ({children} : {children: ReactNode}) => {
         const getAnimal = (id: string | number) => 
             animals.find(a => String(a.id) === String(id));
 
-
-        // const getElapsed = (id: string | number) => {
-        //     const fedAt = local.fedAtById[String(id)];
-        //     if (!fedAt) return Number.POSITIVE_INFINITY;
-        //     return now - fedAt;
-        // }
 
         const getElapsed = (id: string | number) => {
             const key = String(id);
