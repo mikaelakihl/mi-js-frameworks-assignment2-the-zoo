@@ -10,7 +10,6 @@ type Props = {
 };
 
 
-
 export const AnimalHero = ({ animal, statusGlow = "", children, showLongDescription = false }: Props) => {
   const isLong = showLongDescription;
   const text = isLong ? animal.longDescription : animal.shortDescription;
@@ -42,11 +41,9 @@ export const AnimalHero = ({ animal, statusGlow = "", children, showLongDescript
       </div>
 
       <div className="mt-auto w-full flex flex-col items-center gap-6 pb-3">
-      <div className={`h-5 w-5  rounded-full mt-5 ${statusGlow}`}></div>
-      <div className="h-[40px] flex items-center">{children}</div>
+        <div className={`h-5 w-5  rounded-full mt-5 ${statusGlow}`}></div>
+        <div className="h-[40px] flex items-center">{children}</div>
       </div>
-    
-      
     </article>
   );
 };

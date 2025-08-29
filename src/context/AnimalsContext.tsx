@@ -9,9 +9,7 @@ export type AnimalsContextValue = {
     getStatus: (id: string | number) => string;
     canFeed: (id: string | number) => boolean;
     feed: (id: string | number) => void;
-
     getTimeUntilHungry: (id: string | number) => number;
-
     needsFoodSoon: (id: string | number) => boolean;
     isOverdue: (id: string | number) => boolean;
 }
@@ -26,18 +24,13 @@ export const useAnimals = () => {
 
 const LOCALSTORAGE_KEY = 'animals-feeding'; 
 
-
-// --------- AnimalPage -----------------------
-
 const WARN_AT   = 3 * 10 * 1000; // 30 s 3h
 const HUNGRY_AT = 4 * 10 * 1000; // 40 s 4h
 const OVERDUE   = 5 * 10 * 1000; // 5 h 
 
-
 type localState = {
     fedAtById: Record<string, number>;
 };
-
 
 const loadLocal = (): localState => {
     try {

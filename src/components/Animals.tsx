@@ -16,13 +16,11 @@ export const Animals = () => {
     <section className="p-4">
       <ul className="md:grid md:grid-cols-5 md:gap-y-2 md:gap-x-2">
         {animals.map((a) => {
-            const glow = getStatusClass(a.id);
 
+          const glow = getStatusClass(a.id);
           const soon = needsFoodSoon?.(a.id) // 3h–4h
           const late = isOverdue?.(a.id)    // 5h+
           
-          
-
           return (
             <li key={a.id}>
               <Link to={`/animals/${a.id}`} state={{ animal: a }} className="block">
@@ -36,12 +34,8 @@ export const Animals = () => {
                  ⚠ Behöver matas om (3h)
                 </div>
               ) : null}
-              
-             
                 </AnimalHero>
-               
               </Link>
-             
             </li>
           );
         })}

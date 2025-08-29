@@ -7,7 +7,7 @@ export const Layout = () => {
 
     return (
         
-        <> 
+        
             <div className="flex flex-col min-h-screen">
                 <header className="min-h-20 overflow-hidden bg-yellow-400 flex justify-between p-2 items-center">
                 {!isHome ? (
@@ -36,6 +36,5 @@ export const Layout = () => {
                 </div>
             </footer>
             </div>
-        </>
     )
 }
