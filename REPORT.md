@@ -71,7 +71,7 @@ Ha roligt, skratta och lär er massor!
 
 
 ## 🏆 **Betyg: VG**
-📌 **Motivering:** Koden uppfyller samtliga krav för betyg VG. Applikationen använder en router för sidnavigering och implementerar olika koncept som layouts och child-routes på ett korrekt sätt. Djurdata hanteras korrekt med användning av API-anrop, context och reducers. Det finns en fungerande mekanism för att mata djuren, och hanteringen av tidslogik fungerar för djurens matstatus både på översiktssidan och detaljsidan. Trasiga bildlänkar hanteras bra med en reservbild. Användning av SCSS och Tailwind CSS visar på god kompetens inom styling, och subtila animeringar används vid tryck på knappar och sidladdningar.
+📌 **Motivering:** Koden uppfyller både G- och VG-kraven på ett fullständigt sätt. Studenten har implementerat routing med utnyttjande av layouts och child-routes samt hanterat felelement korrekt. Context och reducers används effektivt för djurhantering, och data hämtas med en välstrukturerad lösning. Felaktiga bildlänkar och feeding logik är korrekt hanterade. Animeringar och status presentation är inkluderade subtilt och väl utformade.
 
 💡 **Förbättringsförslag:**  
-Trots att koden överlag är välstrukturerad finns det några förbättringar som kan övervägas: 1) Kommentera svåra delar av koden för att förbättra läsbarheten och förståelsen för andra utvecklare. 2) Använd komponentfiler som följer namngivningsstandarden (t.ex. AnimalHero.tsx), och organisera strukturen så att varje komponent ligger i sin egen mapp med tillhörande stilfil för att underlätta framtida underhåll. 3) Genomgå en refaktoreringsprocess för att säkerställa att all CSS skrivs i Tailwind när det väljs som stylingbibliotek för konsistensens skull.
+Inga större förbättringar behövs. Koden är välstrukturerad och följer bäst praxis inom frontend-utveckling.
